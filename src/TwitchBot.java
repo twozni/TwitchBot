@@ -15,11 +15,14 @@ import BotGames.RockPaperScissors;
 
 public class TwitchBot extends PircBot{
 	
-	//Time (in milliseconds) in which games are unplayable after someone plays one
-	private static final int TWITCH_TIME_BETWEEN_GAMES = 10000;
-	private static final int TWITCH_TIME_BETWEEN_UPTIME_MESSAGE = 30000;
+	//Time (in seconds) in which games are unplayable after someone plays one
+	private static final int TWITCH_TIME_BETWEEN_GAMES = secondsToMilliseconds(20);
 	
-	private static final int TWITCH_TIME_BETWEEN_RANDOM_MESSAGES = 500000;
+	//Time (in seconds) in which the !uptime command is on cooldown
+	private static final int TWITCH_TIME_BETWEEN_UPTIME_MESSAGE = secondsToMilliseconds(30);
+	
+	//Time (in seconds) between random bot messages
+	private static final int TWITCH_TIME_BETWEEN_RANDOM_MESSAGES = secondsToMilliseconds(500);
 	
 	private static final String TWITCH_STREAM_JSON_URL = "https://api.twitch.tv/kraken/streams/" + BotProperties.TWITCH_CHANNEL_NAME.substring(1);
 	
@@ -28,7 +31,7 @@ public class TwitchBot extends PircBot{
 	
 	private static List<String> messages = new ArrayList<>();
 	private static List<String> moderators = new ArrayList<String>();
-	// static long startTimeOfStream;
+	
 	private static long globalStartTime;
 	private static long startTimeFlip;
 	private static long startTimeRps;
@@ -68,9 +71,15 @@ public class TwitchBot extends PircBot{
 		moderators.add(username);
 	}
 	
+	//Convert seconds to milliseconds
+	private static int secondsToMilliseconds(int seconds){
+		return seconds * 1000;
+	}
+	
+	//Gets stream start time from URL
 	private static long streamUptimeToMilli() throws IOException{
 		String startTime = JsonParserFromUrl.getStreamTimeStart(TWITCH_STREAM_JSON_URL).replace("\"", "");
-		if (startTime.equalsIgnoreCase("null")){
+		if (startTime.equalsIgnoreCase(JsonParserFromUrl.STREAM_OFFLINE)){
 			return 0;
 		}
 		else{
@@ -79,6 +88,8 @@ public class TwitchBot extends PircBot{
 		}
 	}
 	
+	
+	//Converts stream start time to string
 	private static String streamUptimeToString(long streamUptimeMilliseconds){
 		String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1);
 		if (streamUptimeMilliseconds == 0){
@@ -90,6 +101,7 @@ public class TwitchBot extends PircBot{
 	}
 	
 	
+	// TODO
 	public boolean isOp(String sender, String channel){
 		final User[] users = getUsers(channel);
 		
@@ -105,14 +117,6 @@ public class TwitchBot extends PircBot{
 		return false;
 	}
 	
-	public void test(String sender, String channel){
-		User[] users = getUsers(channel);
-		
-		for (User user : users){
-			System.out.println(user.getNick() + " " + user.getPrefix());
-		}
-	}
-	
 	public void sendRandomMessage(){
 		Random rand = new Random();
 		int num = rand.nextInt(messages.size());
@@ -123,7 +127,7 @@ public class TwitchBot extends PircBot{
 		while(true){
 			bot.sendRandomMessage();
 			try{
-				Thread.sleep(TWITCH_TIME_BETWEEN_RANDOM_MESSAGES);
+				Thread.sleep(secondsToMilliseconds(TWITCH_TIME_BETWEEN_RANDOM_MESSAGES));
 			}
 			catch (InterruptedException e){
 				e.printStackTrace();
@@ -153,6 +157,74 @@ public class TwitchBot extends PircBot{
 	}
 	
 	
+	private void getStreamUptime(String channel){
+		long globalEndTime = System.currentTimeMillis();
+		if ( (globalEndTime - globalStartTime) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_UPTIME_MESSAGE)){
+			try {
+				this.sendMessage(channel, streamUptimeToString(streamUptimeToMilli()));
+			} catch (IOException e) {
+				this.log("Error: " + e.getMessage());
+			}
+			
+			// Reset start time
+			globalStartTime = System.currentTimeMillis();
+		}
+	}
+	
+	private void onHeadsOrTailsMessage(String channel, String sender, String message){
+		String userChoice = "";
+		
+		try{
+			userChoice = message.substring(6);
+		}
+		catch (StringIndexOutOfBoundsException e){
+			this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
+			this.log("Error: " + e.getMessage());
+			return;
+		}
+		boolean checkIfCorrect = HeadsOrTails.checkUserChoice(userChoice);
+		if (checkIfCorrect){
+			long endTimeFlip = System.currentTimeMillis();
+			//Check if enough time has passed between previous game
+			if ( (endTimeFlip - startTimeFlip) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_GAMES)){
+				HeadsOrTails headsOrTails = new HeadsOrTails(userChoice);
+				
+				this.sendMessage(channel, sender + " " + headsOrTails.getGameResult());
+				//Reset start time
+				startTimeFlip = System.currentTimeMillis();
+			}
+		}	
+		else{
+			this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
+		}
+	}
+	
+	private void onRockPaperScissorsMessage(String channel, String sender, String message){
+		String userChoice = "";
+		try{
+			userChoice = message.substring(5);
+		}
+		catch(StringIndexOutOfBoundsException e){
+			this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
+			return;
+		}
+		boolean userChoiceIsValid = RockPaperScissors.checkUserChoice(userChoice);
+		if(userChoiceIsValid){
+			long endTimeRps = System.currentTimeMillis();
+			if ( (endTimeRps - startTimeRps) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_GAMES)){
+				RockPaperScissors rps = new RockPaperScissors(userChoice);
+				this.sendMessage(channel, sender + " " + rps.getGameResult());
+				
+				//Reset start time
+				startTimeRps = System.currentTimeMillis();
+			}
+		}
+		else{
+			this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
+		}
+	}
+	
+	
 	@Override
 	protected void onMessage(String channel, String sender, String login, String hostname, String message){
 
@@ -170,73 +242,19 @@ public class TwitchBot extends PircBot{
 			this.sendMessage(channel, sender + " has been timed out. Reason: no links allowed!");
 		}
 		
+		// Return how long the stream has been online
 		else if (message.equals("!uptime")){
-			long globalEndTime = System.currentTimeMillis();
-			if ( (globalEndTime - globalStartTime) > TWITCH_TIME_BETWEEN_UPTIME_MESSAGE){
-				try {
-					this.sendMessage(channel, streamUptimeToString(streamUptimeToMilli()));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				// Reset start time
-				globalStartTime = System.currentTimeMillis();
-			}
+			getStreamUptime(channel);
 		}
 		
 		// Heads or tails game
 		else if (message.startsWith("!flip")){
-			
-			String userChoice = "";
-			
-			try{
-				userChoice = message.substring(6);
-			}
-			catch (StringIndexOutOfBoundsException e){
-				this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
-				return;
-			}
-			boolean checkIfCorrect = HeadsOrTails.checkUserChoice(userChoice);
-			if (checkIfCorrect){
-				long endTimeFlip = System.currentTimeMillis();
-				//Check if enough time has passed between previous game
-				if ( (endTimeFlip - startTimeFlip) > TWITCH_TIME_BETWEEN_GAMES){
-					HeadsOrTails headsOrTails = new HeadsOrTails(userChoice);
-					
-					this.sendMessage(channel, sender + " " + headsOrTails.getGameResult());
-					//Reset start time
-					startTimeFlip = System.currentTimeMillis();
-				}
-			}	
-			else{
-				this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
-			}
+			onHeadsOrTailsMessage(channel, sender, message);
 		}
 		
+		// Rock, Paper, Scissors game
 		else if (message.startsWith("!rps")){
-			String userChoice = "";
-			try{
-				userChoice = message.substring(5);
-			}
-			catch(StringIndexOutOfBoundsException e){
-				this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
-				return;
-			}
-			boolean userChoiceIsValid = RockPaperScissors.checkUserChoice(userChoice);
-			if(userChoiceIsValid){
-				long endTimeRps = System.currentTimeMillis();
-				if ( (endTimeRps - startTimeRps) > TWITCH_TIME_BETWEEN_GAMES){
-					RockPaperScissors rps = new RockPaperScissors(userChoice);
-					this.sendMessage(channel, sender + " " + rps.getGameResult());
-					
-					//Reset start time
-					startTimeRps = System.currentTimeMillis();
-				}
-			}
-			else{
-				this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
-			}
+			onRockPaperScissorsMessage(channel, sender, message);
 		}
 		
 		

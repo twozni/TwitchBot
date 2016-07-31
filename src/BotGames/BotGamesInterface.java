@@ -1,5 +1,4 @@
 package BotGames;
-import java.util.Random;
 
 public interface BotGamesInterface {
 	

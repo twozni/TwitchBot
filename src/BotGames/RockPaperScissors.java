@@ -28,7 +28,7 @@ public class RockPaperScissors implements BotGamesInterface{
 		return choices[randomIndex];
 	}
 	
-	private RpsEnum userChoiceToEnum(String choice){
+	public RpsEnum userChoiceToEnum(String choice){
 		switch(choice){
 		case "rock":
 			return RpsEnum.ROCK;
