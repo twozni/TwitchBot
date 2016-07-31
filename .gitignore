@@ -1,0 +1,6 @@
+/bin
+/src/*.class
+/src/*.jar
+/src/BotGames/*.class
+/src/BotProperties.java
+/src/*.bat
