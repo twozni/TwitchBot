@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3d90c18-db79-426b-8f6e-09e142c0b355" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BotGames/BotGamesInterface.java" afterPath="$PROJECT_DIR$/src/BotGames/BotGamesInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BotGames/HeadsOrTails.java" afterPath="$PROJECT_DIR$/src/BotGames/HeadsOrTails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BotGames/HtEnum.java" afterPath="$PROJECT_DIR$/src/BotGames/HtEnum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BotGames/RockPaperScissors.java" afterPath="$PROJECT_DIR$/src/BotGames/RockPaperScissors.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BotGames/RpsEnum.java" afterPath="$PROJECT_DIR$/src/BotGames/RpsEnum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/JsonParserFromUrl.java" afterPath="$PROJECT_DIR$/src/JsonParserFromUrl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/TwitchModChecker.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TwitchBot.java" afterPath="$PROJECT_DIR$/src/TwitchBot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TwitchBotMain.java" afterPath="$PROJECT_DIR$/src/TwitchBotMain.java" />
     </list>
     <ignored path="Twitch IRC Bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,57 +32,7 @@
         <entry file="file://$PROJECT_DIR$/src/BotProperties.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BotGamesInterface.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BotGames/BotGamesInterface.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RockPaperScissors.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BotGames/RockPaperScissors.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HeadsOrTails.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BotGames/HeadsOrTails.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HtEnum.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BotGames/HtEnum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RpsEnum.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BotGames/RpsEnum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -94,17 +42,17 @@
         <entry file="file://$PROJECT_DIR$/src/TwitchBotMain.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <caret line="22" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TwitchModChecker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/TwitchModChecker.java">
+      <file leaf-file-name="User.class" pinned="false" current-in-tab="false">
+        <entry file="jar://D:/Downloads/pircbot.jar!/org/jibble/pircbot/User.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+            <state vertical-scroll-proportion="-2.5185184">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -114,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/src/JsonParserFromUrl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="61" selection-start-line="0" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+              <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -125,14 +73,33 @@
       <file leaf-file-name="TwitchBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TwitchBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49832776">
-              <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+            <state vertical-scroll-proportion="4.240803">
+              <caret line="210" column="99" selection-start-line="210" selection-start-column="99" selection-end-line="210" selection-end-column="99" />
               <folding>
-                <element signature="e#3050#3051#0" expanded="true" />
-                <element signature="e#3101#3102#0" expanded="true" />
-                <element signature="e#3279#3280#0" expanded="true" />
-                <element signature="e#3356#3357#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2433#2434#0" expanded="true" />
+                <element signature="e#2484#2485#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="misc.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="encodings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -155,13 +122,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/TwitchBotMain.java" />
         <option value="$PROJECT_DIR$/src/JsonParserFromUrl.java" />
         <option value="$PROJECT_DIR$/src/BotGames/BotGamesInterface.java" />
         <option value="$PROJECT_DIR$/src/BotGames/HeadsOrTails.java" />
         <option value="$PROJECT_DIR$/src/BotGames/HtEnum.java" />
         <option value="$PROJECT_DIR$/src/BotGames/RockPaperScissors.java" />
         <option value="$PROJECT_DIR$/src/BotGames/RpsEnum.java" />
+        <option value="D:/Downloads/pircbot.jar!/org/jibble/pircbot/PircBot.java" />
+        <option value="$PROJECT_DIR$/src/TwitchBotMain.java" />
         <option value="$PROJECT_DIR$/src/TwitchBot.java" />
       </list>
     </option>
@@ -215,6 +183,10 @@
               <option name="myItemId" value="Twitch IRC Bot" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -237,24 +209,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Twitch IRC Bot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Twitch IRC Bot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BotGames" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -268,6 +222,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager" selected="Application.TwitchBotMain">
     <configuration default="false" name="TwitchBotMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -546,29 +503,22 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/JsonParserFromUrl.java">
+    <entry file="file://$PROJECT_DIR$/src/BotGames/RockPaperScissors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="61" selection-start-line="0" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BotGames/HtEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#107#108#0" expanded="false" />
+            <element signature="e#155#156#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TwitchBotMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TwitchModChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -576,22 +526,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BotProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BotGames/RockPaperScissors.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -604,31 +538,222 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/BotGames/HtEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/BotGames/RpsEnum.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="e#121#122#0" expanded="false" />
+            <element signature="e#169#170#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/.name">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/copyright/profiles_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JsonParserFromUrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Downloads/pircbot.jar!/org/jibble/pircbot/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Downloads/pircbot.jar!/org/jibble/pircbot/User.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.5185184">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Downloads/pircbot.jar!/org/jibble/pircbot/PircBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="239.68965">
+          <caret line="896" column="0" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
+          <folding>
+            <element signature="e#10576#10577#0" expanded="true" />
+            <element signature="e#10609#10610#0" expanded="true" />
+            <element signature="e#11069#11070#0" expanded="true" />
+            <element signature="e#11117#11118#0" expanded="true" />
+            <element signature="e#12661#12662#0" expanded="true" />
+            <element signature="e#12710#12711#0" expanded="true" />
+            <element signature="e#12882#12883#0" expanded="true" />
+            <element signature="e#12933#12934#0" expanded="true" />
+            <element signature="e#13197#13198#0" expanded="true" />
+            <element signature="e#13250#13251#0" expanded="true" />
+            <element signature="e#13411#13412#0" expanded="true" />
+            <element signature="e#13462#13463#0" expanded="true" />
+            <element signature="e#14031#14032#0" expanded="true" />
+            <element signature="e#14066#14067#0" expanded="true" />
+            <element signature="e#14412#14413#0" expanded="true" />
+            <element signature="e#14463#14464#0" expanded="true" />
+            <element signature="e#16406#16407#0" expanded="true" />
+            <element signature="e#16465#16466#0" expanded="true" />
+            <element signature="e#16725#16726#0" expanded="true" />
+            <element signature="e#16790#16791#0" expanded="true" />
+            <element signature="e#17909#17910#0" expanded="true" />
+            <element signature="e#17960#17961#0" expanded="true" />
+            <element signature="e#20370#20371#0" expanded="true" />
+            <element signature="e#20434#20435#0" expanded="true" />
+            <element signature="e#21417#21418#0" expanded="true" />
+            <element signature="e#21488#21489#0" expanded="true" />
+            <element signature="e#22329#22330#0" expanded="true" />
+            <element signature="e#22380#22381#0" expanded="true" />
+            <element signature="e#22741#22742#0" expanded="true" />
+            <element signature="e#22792#22793#0" expanded="true" />
+            <element signature="e#23154#23155#0" expanded="true" />
+            <element signature="e#23205#23206#0" expanded="true" />
+            <element signature="e#23568#23569#0" expanded="true" />
+            <element signature="e#23619#23620#0" expanded="true" />
+            <element signature="e#24026#24027#0" expanded="true" />
+            <element signature="e#24093#24094#0" expanded="true" />
+            <element signature="e#24451#24452#0" expanded="true" />
+            <element signature="e#24495#24496#0" expanded="true" />
+            <element signature="e#25424#25425#0" expanded="true" />
+            <element signature="e#25463#25464#0" expanded="true" />
+            <element signature="e#94326#94327#0" expanded="true" />
+            <element signature="e#94378#94379#0" expanded="true" />
+            <element signature="e#96929#96930#0" expanded="true" />
+            <element signature="e#96963#96964#0" expanded="true" />
+            <element signature="e#97531#97532#0" expanded="true" />
+            <element signature="e#97559#97560#0" expanded="true" />
+            <element signature="e#97838#97839#0" expanded="true" />
+            <element signature="e#97866#97867#0" expanded="true" />
+            <element signature="e#98093#98094#0" expanded="true" />
+            <element signature="e#98123#98124#0" expanded="true" />
+            <element signature="e#98356#98357#0" expanded="true" />
+            <element signature="e#98390#98391#0" expanded="true" />
+            <element signature="e#98619#98620#0" expanded="true" />
+            <element signature="e#98651#98652#0" expanded="true" />
+            <element signature="e#98881#98882#0" expanded="true" />
+            <element signature="e#98909#98910#0" expanded="true" />
+            <element signature="e#99431#99432#0" expanded="true" />
+            <element signature="e#99459#99460#0" expanded="true" />
+            <element signature="e#99617#99618#0" expanded="true" />
+            <element signature="e#99646#99647#0" expanded="true" />
+            <element signature="e#99806#99807#0" expanded="true" />
+            <element signature="e#99837#99838#0" expanded="true" />
+            <element signature="e#100014#100015#0" expanded="true" />
+            <element signature="e#100044#100045#0" expanded="true" />
+            <element signature="e#100426#100427#0" expanded="true" />
+            <element signature="e#100499#100500#0" expanded="true" />
+            <element signature="e#101554#101555#0" expanded="true" />
+            <element signature="e#101590#101591#0" expanded="true" />
+            <element signature="e#102093#102094#0" expanded="true" />
+            <element signature="e#102143#102144#0" expanded="true" />
+            <element signature="e#102534#102535#0" expanded="true" />
+            <element signature="e#102573#102574#0" expanded="true" />
+            <element signature="e#103103#103104#0" expanded="true" />
+            <element signature="e#103133#103134#0" expanded="true" />
+            <element signature="e#103712#103713#0" expanded="true" />
+            <element signature="e#103740#103741#0" expanded="true" />
+            <element signature="e#104344#104345#0" expanded="true" />
+            <element signature="e#104376#104377#0" expanded="true" />
+            <element signature="e#107041#107042#0" expanded="true" />
+            <element signature="e#107072#107073#0" expanded="true" />
+            <element signature="e#107410#107411#0" expanded="true" />
+            <element signature="e#107445#107446#0" expanded="true" />
+            <element signature="e#107948#107949#0" expanded="true" />
+            <element signature="e#107996#107997#0" expanded="true" />
+            <element signature="e#108318#108319#0" expanded="true" />
+            <element signature="e#108356#108357#0" expanded="true" />
+            <element signature="e#111136#111137#0" expanded="true" />
+            <element signature="e#111175#111176#0" expanded="true" />
+            <marker date="1470179747911" expanded="true" signature="34910:35091" placeholder="//..." />
+            <marker date="1470179747911" expanded="true" signature="41067:41181" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BotProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TwitchBotMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TwitchBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49832776">
-          <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+        <state vertical-scroll-proportion="4.240803">
+          <caret line="210" column="99" selection-start-line="210" selection-start-column="99" selection-end-line="210" selection-end-column="99" />
           <folding>
-            <element signature="e#3050#3051#0" expanded="true" />
-            <element signature="e#3101#3102#0" expanded="true" />
-            <element signature="e#3279#3280#0" expanded="true" />
-            <element signature="e#3356#3357#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2433#2434#0" expanded="true" />
+            <element signature="e#2484#2485#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -636,9 +761,67 @@
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Twitch IRC Bot</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>

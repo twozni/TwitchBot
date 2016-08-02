@@ -1,14 +1,8 @@
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
-import org.jibble.pircbot.User;
-
 import BotGames.HeadsOrTails;
 import BotGames.RockPaperScissors;
 
@@ -16,7 +10,7 @@ import BotGames.RockPaperScissors;
 public class TwitchBot extends PircBot {
 
     //Time (in seconds) in which games are unplayable after someone plays one
-    private static final int TWITCH_TIME_BETWEEN_GAMES = secondsToMilliseconds(20);
+    private static final int TWITCH_TIME_BETWEEN_GAMES = secondsToMilliseconds(30);
 
     //Time (in seconds) in which the !uptime command is on cooldown
     private static final int TWITCH_TIME_BETWEEN_UPTIME_MESSAGE = secondsToMilliseconds(30);
@@ -29,13 +23,9 @@ public class TwitchBot extends PircBot {
     private static final String TWITCH_BROADCASTER_NAME = BotProperties.TWITCH_CHANNEL_NAME.substring(1);
 
     private List<String> messages = new ArrayList<>();
-    private List<String> moderatorsArrayList;
-    private Iterator<String> moderatorsArrayListIterator;
 
     private final Timer timer = new Timer();
-    private final Timer timer2 = new Timer();
     private TimerTask randomMessageTask;
-    private TimerTask updateModeratorArrayList;
 
     private long globalStartTime;
     private long startTimeFlip;
@@ -45,18 +35,13 @@ public class TwitchBot extends PircBot {
         this.setName(TWITCH_BOT_NAME);
 
         initializeRandomMessageList();
-        moderatorsArrayList = Collections.synchronizedList(new ArrayList<String>());
 
         globalStartTime = System.currentTimeMillis();
         startTimeFlip = System.currentTimeMillis();
         startTimeRps = System.currentTimeMillis();
 
-        moderatorsArrayList.add(BotProperties.TWITCH_CHANNEL_NAME.substring(1));
-
         initializeTimerTask();
-        initializeModeratorArrayListTask();
-        timer.schedule(randomMessageTask, 0l, 1000 * 300);
-        timer2.schedule(updateModeratorArrayList, 0l, 1000 * 10);
+        timer.schedule(randomMessageTask, 0l, secondsToMilliseconds(300));
     }
 
     // TODO
@@ -93,15 +78,6 @@ public class TwitchBot extends PircBot {
         };
     }
 
-    private void initializeModeratorArrayListTask(){
-        updateModeratorArrayList = new TimerTask() {
-            @Override
-            public void run() {
-                sendMessage(TWITCH_BROADCASTER_NAME, "/mods");
-            }
-        };
-    }
-
     //Gets stream start time from URL
     private static long streamUptimeToMilliseconds() throws IOException {
         String startTime = JsonParserFromUrl.getStreamTimeStart(TWITCH_STREAM_JSON_URL).replace("\"", "");
@@ -123,8 +99,8 @@ public class TwitchBot extends PircBot {
         }
     }
 
-    public boolean isMod(String sender) {
-        if (sender.equalsIgnoreCase(TWITCH_BROADCASTER_NAME) || moderatorsArrayList.contains(sender)) {
+    private boolean isSenderMod(String tags) {
+        if (tags.contains("mod=1") || tags.contains("badges=broadcaster")) {
             return true;
         }
         return false;
@@ -154,29 +130,6 @@ public class TwitchBot extends PircBot {
             this.log("Attempt to reconnect has been interrupted. Reason: " + e.getMessage());
         }
     }
-
-    // TODO
-    private void getModerators(String notice) {
-        // Grab substring containing names of moderators from notice message
-        String moderators = notice.substring(notice.indexOf(":") + 1);
-        String[] moderatorsArray = moderators.trim().split(",");
-        this.log(moderators);
-
-        moderatorsArrayListIterator = moderatorsArrayList.iterator();
-        while (moderatorsArrayListIterator.hasNext()){
-            String mod = moderatorsArrayListIterator.next();
-            if (!Arrays.asList(moderatorsArray).contains(mod)){
-                moderatorsArrayListIterator.remove();
-            }
-        }
-
-        for (String mod : moderatorsArray) {
-            if (!moderatorsArrayList.contains(mod)) {
-                moderatorsArrayList.add(mod);
-            }
-        }
-    }
-
 
     private void getStreamUptime(String channel) {
         long globalEndTime = System.currentTimeMillis();
@@ -243,23 +196,19 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
-        if (notice.contains("The moderators of this room are: ")) {
-            getModerators(notice);
-        }
+        // TODO
     }
 
-
     @Override
-    protected void onMessage(String channel, String sender, String login, String hostname, String message) {
-
+    protected void onMessage(String channel, String sender, String login, String hostname, String message, String tags) {
         //Timeout user if message is over 400 characters
-        if (message.length() > 400 && !isMod(sender)) {
+        if (message.length() > 400 && !isSenderMod(tags)) {
             this.sendMessage(channel, "/timeout " + sender + " 60");
             this.sendMessage(channel, sender + " has been timed out. Reason: message too long.");
         }
 
         //Timeout user if message contains URL
-        else if ((message.contains("http://") || message.contains(".com")) && !isMod(sender)) {
+        else if ((message.contains("http://") || message.contains(".com")) && !isSenderMod(tags)) {
             this.sendMessage(channel, "/timeout " + sender + " 120");
             this.sendMessage(channel, sender + " has been timed out. Reason: no links allowed!");
         }

@@ -15,8 +15,7 @@ public class TwitchBotMain {
 
         bot.joinChannel(BotProperties.TWITCH_CHANNEL_NAME);
         bot.sendRawLine("CAP REQ :twitch.tv/commands");
-        bot.sendMessage(BotProperties.TWITCH_CHANNEL_NAME, "/mods");
-
+        bot.sendRawLine("CAP REQ :twitch.tv/tags");
 
     }
 
