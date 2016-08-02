@@ -26,17 +26,20 @@ public class TwitchBot extends PircBot {
     //Bot name. Must be all lowercase and match assigned OAUTH key
     private static final String TWITCH_BOT_NAME = "fsocietybot";
 
+    private static final String TWITCH_BROADCASTER_NAME = BotProperties.TWITCH_CHANNEL_NAME.substring(1);
+
     private List<String> messages = new ArrayList<>();
     private List<String> moderatorsArrayList;
+    private Iterator<String> moderatorsArrayListIterator;
 
     private final Timer timer = new Timer();
+    private final Timer timer2 = new Timer();
     private TimerTask randomMessageTask;
+    private TimerTask updateModeratorArrayList;
 
     private long globalStartTime;
     private long startTimeFlip;
     private long startTimeRps;
-
-    private String noticeMessage;
 
     public TwitchBot() {
         this.setName(TWITCH_BOT_NAME);
@@ -51,7 +54,9 @@ public class TwitchBot extends PircBot {
         moderatorsArrayList.add(BotProperties.TWITCH_CHANNEL_NAME.substring(1));
 
         initializeTimerTask();
+        initializeModeratorArrayListTask();
         timer.schedule(randomMessageTask, 0l, 1000 * 300);
+        timer2.schedule(updateModeratorArrayList, 0l, 1000 * 10);
     }
 
     // TODO
@@ -88,6 +93,15 @@ public class TwitchBot extends PircBot {
         };
     }
 
+    private void initializeModeratorArrayListTask(){
+        updateModeratorArrayList = new TimerTask() {
+            @Override
+            public void run() {
+                sendMessage(TWITCH_BROADCASTER_NAME, "/mods");
+            }
+        };
+    }
+
     //Gets stream start time from URL
     private static long streamUptimeToMilliseconds() throws IOException {
         String startTime = JsonParserFromUrl.getStreamTimeStart(TWITCH_STREAM_JSON_URL).replace("\"", "");
@@ -102,17 +116,15 @@ public class TwitchBot extends PircBot {
 
     //Converts stream start time to string
     private static String streamUptimeToString(long streamUptimeMilliseconds) {
-        String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1).trim();
         if (streamUptimeMilliseconds == 0) {
-            return channelName + " is currently offline.";
+            return TWITCH_BROADCASTER_NAME + " is currently offline.";
         } else {
-            return JsonParserFromUrl.currentUptimeOfStream(channelName, streamUptimeMilliseconds);
+            return JsonParserFromUrl.currentUptimeOfStream(TWITCH_BROADCASTER_NAME, streamUptimeMilliseconds);
         }
     }
 
     public boolean isMod(String sender) {
-        this.sendMessage(BotProperties.TWITCH_CHANNEL_NAME, "/mods");
-        if (moderatorsArrayList.contains(sender)) {
+        if (sender.equalsIgnoreCase(TWITCH_BROADCASTER_NAME) || moderatorsArrayList.contains(sender)) {
             return true;
         }
         return false;
@@ -145,12 +157,18 @@ public class TwitchBot extends PircBot {
 
     // TODO
     private void getModerators(String notice) {
-        String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1).trim();
-
         // Grab substring containing names of moderators from notice message
-        String moderators = notice.substring(notice.indexOf(":") + 1) + ", " + channelName;
+        String moderators = notice.substring(notice.indexOf(":") + 1);
         String[] moderatorsArray = moderators.trim().split(",");
         this.log(moderators);
+
+        moderatorsArrayListIterator = moderatorsArrayList.iterator();
+        while (moderatorsArrayListIterator.hasNext()){
+            String mod = moderatorsArrayListIterator.next();
+            if (!Arrays.asList(moderatorsArray).contains(mod)){
+                moderatorsArrayListIterator.remove();
+            }
+        }
 
         for (String mod : moderatorsArray) {
             if (!moderatorsArrayList.contains(mod)) {
