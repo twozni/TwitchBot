@@ -43,13 +43,13 @@ public class JsonParserFromUrl {
 		long days = TimeUnit.MILLISECONDS.toDays(time);
 		time -= TimeUnit.DAYS.toMillis(days);
 		
-        long hours = TimeUnit.MILLISECONDS.toHours(time);
-        time -= TimeUnit.HOURS.toMillis(hours);
+		long hours = TimeUnit.MILLISECONDS.toHours(time);
+		time -= TimeUnit.HOURS.toMillis(hours);
         
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
-        time -= TimeUnit.MINUTES.toMillis(minutes);
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
+		time -= TimeUnit.MINUTES.toMillis(minutes);
         
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
 
 
         StringBuilder sb = new StringBuilder();
@@ -74,7 +74,6 @@ public class JsonParserFromUrl {
         	sb.append(days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds");
         	return sb.toString();
         }
-        
 	}
-
+        
 }

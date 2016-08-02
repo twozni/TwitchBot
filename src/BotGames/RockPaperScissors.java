@@ -16,15 +16,15 @@ public class RockPaperScissors implements BotGamesInterface{
 		if (choice.equalsIgnoreCase("rock") || choice.equalsIgnoreCase("paper") || choice.equalsIgnoreCase("scissors")){
 			return true;
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	private RpsEnum computerSelectChoice(){
 		Random rand = new Random();
+
 		final RpsEnum[] choices = {RpsEnum.ROCK, RpsEnum.PAPER, RpsEnum.SCISSORS };
 		int randomIndex = rand.nextInt(3);
+
 		return choices[randomIndex];
 	}
 	
@@ -44,10 +44,11 @@ public class RockPaperScissors implements BotGamesInterface{
 	public void setUpGame(String choice) {
 		choice = choice.toLowerCase();
 		RpsEnum choiceToEnum = userChoiceToEnum(choice);
+
 		startGame(choiceToEnum);
 	}
 	
-	public void startGame(RpsEnum choice){
+	private void startGame(RpsEnum choice){
 		RpsEnum computersChoice = computerSelectChoice();
 
 		if (choice == computersChoice){

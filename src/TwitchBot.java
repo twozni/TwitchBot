@@ -1,8 +1,8 @@
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.jibble.pircbot.IrcException;
@@ -21,29 +21,40 @@ public class TwitchBot extends PircBot{
 	//Time (in seconds) in which the !uptime command is on cooldown
 	private static final int TWITCH_TIME_BETWEEN_UPTIME_MESSAGE = secondsToMilliseconds(30);
 	
-	//Time (in seconds) between random bot messages
-	private static final int TWITCH_TIME_BETWEEN_RANDOM_MESSAGES = secondsToMilliseconds(500);
-	
 	private static final String TWITCH_STREAM_JSON_URL = "https://api.twitch.tv/kraken/streams/" + BotProperties.TWITCH_CHANNEL_NAME.substring(1);
 	
 	//Bot name. Must be all lowercase and match assigned OAUTH key
 	private static final String TWITCH_BOT_NAME = "fsocietybot";
+
+	private List<String> messages = new ArrayList<>();
+	private List<String> moderatorsArrayList;
+
+    private final Timer timer = new Timer();
+    private TimerTask randomMessageTask;
 	
-	private static List<String> messages = new ArrayList<>();
-	private static List<String> moderators = new ArrayList<String>();
-	
-	private static long globalStartTime;
-	private static long startTimeFlip;
-	private static long startTimeRps;
+	private long globalStartTime;
+	private long startTimeFlip;
+	private long startTimeRps;
+
+    private String noticeMessage;
 	
 	public TwitchBot(){
 		this.setName(TWITCH_BOT_NAME);
+
 		initializeRandomMessageList();
+        moderatorsArrayList = Collections.synchronizedList(new ArrayList<String>());
+
 		globalStartTime = System.currentTimeMillis();
 		startTimeFlip = System.currentTimeMillis();
 		startTimeRps = System.currentTimeMillis();
+
+        moderatorsArrayList.add(BotProperties.TWITCH_CHANNEL_NAME.substring(1));
+
+        initializeTimerTask();
+        timer.schedule(randomMessageTask, 0l, 1000*300);
 	}
-	
+
+    // TODO
 	public void initializeRandomMessageList(){
 		String m1 = "Welcome to the channel!";
 		String m2 = "Please read the rules!";
@@ -63,21 +74,22 @@ public class TwitchBot extends PircBot{
 		messages.add(m8);
 	}
 	
-	public static List<String> getModerators(){
-		return moderators;
-	}
-	
-	public static void addModerator(String username){
-		moderators.add(username);
-	}
-	
 	//Convert seconds to milliseconds
 	private static int secondsToMilliseconds(int seconds){
 		return seconds * 1000;
 	}
+
+    private void initializeTimerTask(){
+        randomMessageTask = new TimerTask() {
+            @Override
+            public void run() {
+                sendRandomMessage();
+            }
+        };
+    }
 	
 	//Gets stream start time from URL
-	private static long streamUptimeToMilli() throws IOException{
+	private static long streamUptimeToMilliseconds() throws IOException{
 		String startTime = JsonParserFromUrl.getStreamTimeStart(TWITCH_STREAM_JSON_URL).replace("\"", "");
 		if (startTime.equalsIgnoreCase(JsonParserFromUrl.STREAM_OFFLINE)){
 			return 0;
@@ -91,7 +103,7 @@ public class TwitchBot extends PircBot{
 	
 	//Converts stream start time to string
 	private static String streamUptimeToString(long streamUptimeMilliseconds){
-		String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1);
+		String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1).trim();
 		if (streamUptimeMilliseconds == 0){
 			return channelName + " is currently offline.";
 		}
@@ -99,69 +111,63 @@ public class TwitchBot extends PircBot{
 			return JsonParserFromUrl.currentUptimeOfStream(channelName, streamUptimeMilliseconds);
 		}
 	}
-	
-	
-	// TODO
-	public boolean isOp(String sender, String channel){
-		final User[] users = getUsers(channel);
-		
-		for (final User user: users){
-			System.out.println(user.getPrefix());
-			if (user.getNick().equals(sender)){
-				System.out.println(user.getPrefix());
-				if(user.getPrefix().startsWith("+")){
-					return true;
-				}
-			}
-		}
-		return false;
+
+	public boolean isMod(String sender){
+        this.sendMessage(BotProperties.TWITCH_CHANNEL_NAME, "/mods");
+        if(moderatorsArrayList.contains(sender)){
+            return true;
+        }
+        return false;
 	}
 	
 	public void sendRandomMessage(){
 		Random rand = new Random();
 		int num = rand.nextInt(messages.size());
+
 		this.sendMessage(BotProperties.TWITCH_CHANNEL_NAME, messages.get(num));
-	}
-	
-	public static void startRandomMessages(TwitchBot bot){
-		while(true){
-			bot.sendRandomMessage();
-			try{
-				Thread.sleep(secondsToMilliseconds(TWITCH_TIME_BETWEEN_RANDOM_MESSAGES));
-			}
-			catch (InterruptedException e){
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	@Override
 	protected void onDisconnect(){
-		this.log("Attempting to reconnect...");
-		while(true){
-			if (!this.isConnected()){
-				try {
-					this.reconnect();
-				} catch (IOException | IrcException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			try{
-				Thread.sleep(30000);
-			}
-			catch(InterruptedException e){
-				e.printStackTrace();
-			}
-		}	
+		this.log("Bot has been disconnected.");
+		while(!this.isConnected()){
+            try {
+                this.log("Attempting to reconnect...");
+                this.reconnect();
+            } catch (IOException | IrcException e) {
+                this.log("Failed to reconnect. Reason: " + e.getMessage());
+            }
+        }
+        try{
+            Thread.sleep(30000);
+        }
+        catch(InterruptedException e){
+            this.log("Attempt to reconnect has been interrupted. Reason: " + e.getMessage());
+        }
 	}
+
+    // TODO
+    private void getModerators(String notice){
+        String channelName = BotProperties.TWITCH_CHANNEL_NAME.substring(1).trim();
+
+        // Grab substring containing names of moderators from notice message
+        String moderators = notice.substring(notice.indexOf(":") + 1) + ", " + channelName;
+        String [] moderatorsArray = moderators.trim().split(",");
+        this.log(moderators);
+
+        for (String mod : moderatorsArray){
+            if(!moderatorsArrayList.contains(mod)){
+                moderatorsArrayList.add(mod);
+            }
+        }
+    }
 	
 	
 	private void getStreamUptime(String channel){
 		long globalEndTime = System.currentTimeMillis();
-		if ( (globalEndTime - globalStartTime) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_UPTIME_MESSAGE)){
+		if ( (globalEndTime - globalStartTime) > TWITCH_TIME_BETWEEN_UPTIME_MESSAGE){
 			try {
-				this.sendMessage(channel, streamUptimeToString(streamUptimeToMilli()));
+				this.sendMessage(channel, streamUptimeToString(streamUptimeToMilliseconds()));
 			} catch (IOException e) {
 				this.log("Error: " + e.getMessage());
 			}
@@ -186,7 +192,7 @@ public class TwitchBot extends PircBot{
 		if (checkIfCorrect){
 			long endTimeFlip = System.currentTimeMillis();
 			//Check if enough time has passed between previous game
-			if ( (endTimeFlip - startTimeFlip) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_GAMES)){
+			if ( (endTimeFlip - startTimeFlip) > TWITCH_TIME_BETWEEN_GAMES){
 				HeadsOrTails headsOrTails = new HeadsOrTails(userChoice);
 				
 				this.sendMessage(channel, sender + " " + headsOrTails.getGameResult());
@@ -211,7 +217,7 @@ public class TwitchBot extends PircBot{
 		boolean userChoiceIsValid = RockPaperScissors.checkUserChoice(userChoice);
 		if(userChoiceIsValid){
 			long endTimeRps = System.currentTimeMillis();
-			if ( (endTimeRps - startTimeRps) > secondsToMilliseconds(TWITCH_TIME_BETWEEN_GAMES)){
+			if ( (endTimeRps - startTimeRps) > TWITCH_TIME_BETWEEN_GAMES){
 				RockPaperScissors rps = new RockPaperScissors(userChoice);
 				this.sendMessage(channel, sender + " " + rps.getGameResult());
 				
@@ -223,21 +229,26 @@ public class TwitchBot extends PircBot{
 			this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
 		}
 	}
+
+    @Override
+    protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice){
+        if(notice.contains("The moderators of this room are: ")){
+            getModerators(notice);
+        }
+    }
 	
 	
 	@Override
 	protected void onMessage(String channel, String sender, String login, String hostname, String message){
 
 		//Timeout user if message is over 400 characters
-		if (message.length() > 400 && !isOp(sender, channel)){
-			this.setMessageDelay(0);
+		if (message.length() > 400 && !isMod(sender)){
 			this.sendMessage(channel, "/timeout " + sender + " 60");
 			this.sendMessage(channel, sender + " has been timed out. Reason: message too long.");
 		}
 		
 		//Timeout user if message contains URL
-		else if (message.contains("http://") && !isOp(sender, channel)){
-			this.setMessageDelay(0);
+		else if ( (message.contains("http://") || message.contains(".com")) && !isMod(sender)){
 			this.sendMessage(channel, "/timeout " + sender + " 120");
 			this.sendMessage(channel, sender + " has been timed out. Reason: no links allowed!");
 		}
@@ -263,6 +274,7 @@ public class TwitchBot extends PircBot{
 		
 		
 	}
+
 }
 
 

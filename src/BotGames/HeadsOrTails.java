@@ -16,11 +16,14 @@ public class HeadsOrTails implements BotGamesInterface{
 	@Override
 	public void setUpGame(String choice) {
 		rand = new Random();
+
 		choice = choice.toLowerCase();
-		startGame(choice);
+        HtEnum choiceToEnum = userChoiceToEnum(choice);
+
+		startGame(choiceToEnum);
 	}
-	
-	private HtEnum userChoiceToEnum(String choice){
+
+    private HtEnum userChoiceToEnum(String choice){
 		switch(choice){
 			case "heads":
 				return HtEnum.HEADS;
@@ -30,29 +33,29 @@ public class HeadsOrTails implements BotGamesInterface{
 		throw new IllegalArgumentException("This should not execute. " + choice + " was passed in.");
 	}
 
+    private HtEnum computerFlipCoin(){
+        final HtEnum[] enumArray = { HtEnum.HEADS, HtEnum.TAILS };
+
+        int randomIndex = rand.nextInt(2);
+        return enumArray[randomIndex];
+    }
+
 	public static boolean checkUserChoice(String choice) {
 		choice = choice.toLowerCase();
 		if (choice.equals("heads") || choice.equals("tails")){
 			return true;
 		}
-		else{
-			return false;
-		}
-		
+		return false;
 	}
 
-	public void startGame(String choice) {
-		final HtEnum[] enumArray = { HtEnum.HEADS, HtEnum.TAILS };
-		int randomIndex = rand.nextInt(2);
+	private void startGame(HtEnum choice) {
+		HtEnum flip = computerFlipCoin();
 		
-		HtEnum flip = enumArray[randomIndex];
-		HtEnum choiceToEnum = userChoiceToEnum(choice);
-		
-		if (flip == choiceToEnum){
-			gameResult = " chose " + choiceToEnum.toString() + " and it's " + flip.toString() + ". You win!";
+		if (flip == choice){
+			gameResult = " chose " + choice.toString() + " and it's " + flip.toString() + ". You win!";
 		}
 		else{
-			gameResult = " chose " + choiceToEnum.toString() + " and it's " + flip.toString() + ". You lose!";
+			gameResult = " chose " + choice.toString() + " and it's " + flip.toString() + ". You lose!";
 		}
 		
 	}

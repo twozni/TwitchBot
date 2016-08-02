@@ -13,9 +13,10 @@ public class TwitchBotMain {
 		bot.connect("irc.chat.twitch.tv", 6667, BotProperties.TWITCH_OAUTH_KEY);
 		
 		bot.joinChannel(BotProperties.TWITCH_CHANNEL_NAME);
-		
-		TwitchBot.startRandomMessages(bot);
+		bot.sendRawLine("CAP REQ :twitch.tv/commands");
+        bot.sendMessage(BotProperties.TWITCH_CHANNEL_NAME, "/mods");
 
+	
 	}
 
 }
