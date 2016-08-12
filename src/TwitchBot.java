@@ -1,13 +1,18 @@
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
-import BotGames.HeadsOrTails;
-import BotGames.RockPaperScissors;
+import BotGames.HeadsOrTailsGame;
+import BotGames.RockPaperScissorsGame;
 
 
 public class TwitchBot extends PircBot {
+
+    private static final String URL_REGEX = "\\b(https?://)?(www\\.)?[a-zA-Z0-9]+\\.[a-zA-Z]{2}\\S*\\b";
 
     //Time (in seconds) in which games are unplayable after someone plays one
     private static final int TWITCH_TIME_BETWEEN_GAMES = secondsToMilliseconds(30);
@@ -26,6 +31,8 @@ public class TwitchBot extends PircBot {
 
     private final Timer timer = new Timer();
     private TimerTask randomMessageTask;
+    private Pattern pattern = Pattern.compile(URL_REGEX);
+    private Matcher matcher;
 
     private long globalStartTime;
     private long startTimeFlip;
@@ -100,7 +107,16 @@ public class TwitchBot extends PircBot {
     }
 
     private boolean isSenderMod(String tags) {
-        if (tags.contains("mod=1") || tags.contains("badges=broadcaster")) {
+        if (tags.contains("mod=1") || tags.contains("badges=broadcaster") || tags.contains("user-type=staff") ||
+                tags.contains("user-type=global_mod") || tags.contains("user-type=admin")) {
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isSenderSubscribed(String tags){
+        if (tags.contains("subscriber=1")){
             return true;
         }
         return false;
@@ -125,7 +141,7 @@ public class TwitchBot extends PircBot {
             }
         }
         try {
-            Thread.sleep(30000);
+            Thread.sleep(15000);
         } catch (InterruptedException e) {
             this.log("Attempt to reconnect has been interrupted. Reason: " + e.getMessage());
         }
@@ -151,23 +167,23 @@ public class TwitchBot extends PircBot {
         try {
             userChoice = message.substring(6);
         } catch (StringIndexOutOfBoundsException e) {
-            this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
+            this.sendMessage(channel, "@" + sender + " " + HeadsOrTailsGame.HT_ERROR_STRING);
             this.log("Error: " + e.getMessage());
             return;
         }
-        boolean checkIfCorrect = HeadsOrTails.checkUserChoice(userChoice);
+        boolean checkIfCorrect = HeadsOrTailsGame.checkUserChoice(userChoice);
         if (checkIfCorrect) {
             long endTimeFlip = System.currentTimeMillis();
             //Check if enough time has passed between previous game
             if ((endTimeFlip - startTimeFlip) > TWITCH_TIME_BETWEEN_GAMES) {
-                HeadsOrTails headsOrTails = new HeadsOrTails(userChoice);
+                HeadsOrTailsGame headsOrTails = new HeadsOrTailsGame(userChoice);
 
                 this.sendMessage(channel, sender + " " + headsOrTails.getGameResult());
                 //Reset start time
                 startTimeFlip = System.currentTimeMillis();
             }
         } else {
-            this.sendMessage(channel, "@" + sender + " " + HeadsOrTails.HT_ERROR_STRING);
+            this.sendMessage(channel, "@" + sender + " " + HeadsOrTailsGame.HT_ERROR_STRING);
         }
     }
 
@@ -176,22 +192,27 @@ public class TwitchBot extends PircBot {
         try {
             userChoice = message.substring(5);
         } catch (StringIndexOutOfBoundsException e) {
-            this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
+            this.sendMessage(channel, "@" + sender + " " + RockPaperScissorsGame.RPS_ERROR_MESSAGE);
             return;
         }
-        boolean userChoiceIsValid = RockPaperScissors.checkUserChoice(userChoice);
+        boolean userChoiceIsValid = RockPaperScissorsGame.checkUserChoice(userChoice);
         if (userChoiceIsValid) {
             long endTimeRps = System.currentTimeMillis();
             if ((endTimeRps - startTimeRps) > TWITCH_TIME_BETWEEN_GAMES) {
-                RockPaperScissors rps = new RockPaperScissors(userChoice);
+                RockPaperScissorsGame rps = new RockPaperScissorsGame(userChoice);
                 this.sendMessage(channel, sender + " " + rps.getGameResult());
 
                 //Reset start time
                 startTimeRps = System.currentTimeMillis();
             }
         } else {
-            this.sendMessage(channel, "@" + sender + " " + RockPaperScissors.RPS_ERROR_MESSAGE);
+            this.sendMessage(channel, "@" + sender + " " + RockPaperScissorsGame.RPS_ERROR_MESSAGE);
         }
+    }
+
+    private boolean checkIfStringContainsURL(String message){
+        matcher = pattern.matcher(message);
+        return matcher.find();
     }
 
     @Override
@@ -208,7 +229,7 @@ public class TwitchBot extends PircBot {
         }
 
         //Timeout user if message contains URL
-        else if ((message.contains("http://") || message.contains(".com")) && !isSenderMod(tags)) {
+        else if (checkIfStringContainsURL(message) && !isSenderMod(tags)) {
             this.sendMessage(channel, "/timeout " + sender + " 120");
             this.sendMessage(channel, sender + " has been timed out. Reason: no links allowed!");
         }

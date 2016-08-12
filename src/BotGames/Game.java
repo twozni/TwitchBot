@@ -1,6 +1,6 @@
 package BotGames;
 
-public interface BotGamesInterface {
+public interface Game {
 
     void setUpGame(String choice);
 

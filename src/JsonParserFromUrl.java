@@ -54,19 +54,19 @@ public class JsonParserFromUrl {
         StringBuilder sb = new StringBuilder();
         sb.append(channelName + " has been live for ");
 
-        if (days <= 0 && hours <= 0 && minutes <= 0) {
-            sb.append(seconds + " seconds");
-            return sb.toString();
-        } else if (days <= 0 && hours <= 0) {
-            sb.append(minutes + " minutes " + seconds + " seconds");
-            return sb.toString();
-        } else if (days <= 0) {
-            sb.append(hours + " hours " + minutes + " minutes " + seconds + " seconds");
-            return sb.toString();
-        } else {
-            sb.append(days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds");
-            return sb.toString();
+        if (days > 0){
+            sb.append(days + " days ");
         }
+        if (hours > 0){
+            sb.append(hours + " hours ");
+        }
+        if (minutes > 0){
+            sb.append(minutes + " minutes ");
+        }
+        if (seconds > 0){
+            sb.append(seconds + " seconds");
+        }
+        return sb.append(".").toString();
     }
 
 }
